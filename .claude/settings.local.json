@@ -1,7 +1,13 @@
 {
   "permissions": {
     "allow": [
-      "mcp__ide__getDiagnostics"
+      "mcp__ide__getDiagnostics",
+      "Bash(curl -s -X POST http://127.0.0.1:5001/register -d \"name=T&email=testuser3@example.com&password=testpass123\")",
+      "Bash(sqlite3 expense_tracker.db \"SELECT id, name, email, substr\\(password, 1, 20\\) as password_preview, created_at FROM users WHERE email = 'testuser@example.com';\")",
+      "Bash(python -c \"import sqlite3; db = sqlite3.connect\\('expense_tracker.db'\\); cursor = db.execute\\('SELECT id, name, email, substr\\(password, 1, 30\\) as password_preview, created_at FROM users WHERE email = ?', \\('testuser@example.com',\\)\\); print\\(cursor.fetchone\\(\\)\\)\")",
+      "Bash(curl -s -X POST http://127.0.0.1:5001/register -d \"name=Test<script>alert\\('xss'\\)</script>User&email=testuser4@example.com&password=testpass123\")",
+      "Bash(curl -s -X POST http://127.0.0.1:5001/register -d \"name=O'Connor-Smith&email=testuser4@example.com&password=testpass123\" -i)",
+      "Bash(curl -s -X POST http://127.0.0.1:5001/register -d \"name=Test User&email=testuser5@example.com&password=short\")"
     ]
   }
 }
