@@ -10,6 +10,33 @@ def get_db():
     return db
 
 
+def get_user_by_email(email):
+    """Retrieve user by email address"""
+    db = get_db()
+    try:
+        user = db.execute('SELECT * FROM users WHERE email = ?', (email,)).fetchone()
+        return user
+    finally:
+        db.close()
+
+
+def create_user(name, email, password):
+    """Create a new user in the database"""
+    db = get_db()
+    try:
+        hashed_password = generate_password_hash(password)
+        cursor = db.execute(
+            'INSERT INTO users (name, email, password) VALUES (?, ?, ?)',
+            (name, email, hashed_password)
+        )
+        db.commit()
+        return cursor.lastrowid
+    except sqlite3.IntegrityError:
+        return None
+    finally:
+        db.close()
+
+
 def init_db():
     db = get_db()
 
